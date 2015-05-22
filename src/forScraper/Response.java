@@ -1,7 +1,5 @@
 package forScraper;
 
-import java.sql.Time;
-
 public class Response {
 	public int id;
 	public boolean deleted;
