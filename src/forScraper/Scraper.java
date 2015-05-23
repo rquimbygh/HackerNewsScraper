@@ -117,6 +117,8 @@ public class Scraper {
 		return true;
 	}
 	public String justDomain (String url){
+		//String checkme = url;
+		
 		int https = url.indexOf("https://");
 		if (https > -1){
 			url = url.substring("https://".length(), url.length());
@@ -170,7 +172,13 @@ public class Scraper {
 		else if (us > -1 ){
 			url = url.substring(0, us+ ".us".length());
 		}
-
+		
+		/* What's the blank line for top website?
+		String trimmed = url.trim();
+		if (trimmed.equals("")){
+			System.out.println(checkme);
+		}
+		*/
 		return url;
 	}
 

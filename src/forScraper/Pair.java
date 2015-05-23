@@ -12,4 +12,8 @@ public class Pair {
 	  public String toString(){
 		  return key + " " + val;
 	  }
+	  
+		public static void main(String[] args) {
+			
+		}
 }
