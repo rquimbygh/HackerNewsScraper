@@ -82,39 +82,39 @@ public class Scraper {
 	}
 
 	public void addUrl(PairStringInt[] items, String key){
-		if (noDuplicatesUrl(items, key)){
+		if (!isDuplicateUrl(items, key)){
 			urlItems[uItems++] = new PairStringInt(key, 1);
 		}
 	}
 
 	public void addBy(PairStringInt[] items, String key){
-		if (noDuplicatesBy(items, key)){
+		if (!isDuplicateBy(items, key)){
 			byItems[bItems++] = new PairStringInt(key, 1);
 		}
 	}
 
-	public boolean noDuplicatesUrl(PairStringInt[] items, String key){
+	public boolean isDuplicateUrl(PairStringInt[] items, String key){
 		for (int i = 0 ; i < uItems ; i++){
 			items[i].key = items[i].key.trim();
 			items[i].key = items[i].key.toLowerCase();
 			if (items[i].key.equals(key)){
 				items[i].val++;
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
-	public boolean noDuplicatesBy(PairStringInt[] items, String key){
+	public boolean isDuplicateBy(PairStringInt[] items, String key){
 		for (int i = 0 ; i < bItems ; i++){
 			items[i].key = items[i].key.trim();
 			items[i].key = items[i].key.toLowerCase();
 			if (items[i].key.equals(key)){
 				items[i].val++;
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	public String justDomain (String url){
 		//String checkme = url;
@@ -240,7 +240,6 @@ public class Scraper {
 		} catch (Exception e) {
 			System.out.println("error: " + e);
 		}
-		System.out.println("maxItemID is: " + scraper.maxItemID);
 		scraper.discoverAllItems();
 		scraper.topTenSites();
 		scraper.topTenUsers();

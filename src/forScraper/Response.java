@@ -13,7 +13,7 @@ public class Response {
 	public String url;
 	public int score;
 	public String title;
-	public Pair parts;
+	public Response parts;
 	public int descendants;
 
 	Response() {
