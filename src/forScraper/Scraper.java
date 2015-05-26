@@ -57,6 +57,8 @@ public class Scraper {
 			byItems = new PairStringInt[1000];	
 			scoreItems = new Pair[1000];
 
+			//size limits for memory's sake
+			// for (int i = 0 ; i <=maxItemID ; i++) {
 			for (int i = maxItemID - 1000 ; i <= maxItemID ; i++){
 				try {
 					Response item = getItem(""+i);
@@ -116,69 +118,66 @@ public class Scraper {
 		}
 		return false;
 	}
+	
 	public String justDomain (String url){
-		//String checkme = url;
-		
-		int https = url.indexOf("https://");
-		if (https > -1){
-			url = url.substring("https://".length(), url.length());
-		}
+		// we're going to say blank url's are hosted at news.ycombinator.com
+		if (url.equals("")){
+			url = "news.ycombinator.com";
+		} else {
+			int https = url.indexOf("https://");
+			if (https > -1){
+				url = url.substring("https://".length(), url.length());
+			}
 
-		int http = url.indexOf("http://");
-		if (http > -1){
-			url = url.substring("http://".length(), url.length());
-		}
+			int http = url.indexOf("http://");
+			if (http > -1){
+				url = url.substring("http://".length(), url.length());
+			}
 
-		int www = url.indexOf("www.");
-		if (www > -1){
-			url = url.substring("www.".length(), url.length());
-		}
+			int www = url.indexOf("www.");
+			if (www > -1){
+				url = url.substring("www.".length(), url.length());
+			}
 
-		int mobile = url.indexOf("mobile.");
-		if (mobile > -1){
-			url = url.substring("mobile.".length(), url.length());
-		}
+			int mobile = url.indexOf("mobile.");
+			if (mobile > -1){
+				url = url.substring("mobile.".length(), url.length());
+			}
 
-		int com = url.indexOf(".com");
-		int net = url.indexOf(".net");
-		int edu = url.indexOf(".edu");
-		int org = url.indexOf(".org");
-		int io = url.indexOf(".io");
-		int co = url.indexOf(".co");
-		int it = url.indexOf(".it");
-		int us = url.indexOf(".us");
+			int com = url.indexOf(".com");
+			int net = url.indexOf(".net");
+			int edu = url.indexOf(".edu");
+			int org = url.indexOf(".org");
+			int io = url.indexOf(".io");
+			int co = url.indexOf(".co");
+			int it = url.indexOf(".it");
+			int us = url.indexOf(".us");
 
-		if (com > -1){
-			url = url.substring(0, com+ ".com".length());
-		}	
-		else if (net > -1){
-			url = url.substring(0, net+ ".net".length());
+			if (com > -1){
+				url = url.substring(0, com+ ".com".length());
+			}	
+			else if (net > -1){
+				url = url.substring(0, net+ ".net".length());
+			}
+			else if (edu > -1){
+				url = url.substring(0, edu+ ".edu".length());
+			}
+			else if (org > -1 ){
+				url = url.substring(0, org+ ".org".length());
+			}
+			else if (io > -1 ){
+				url = url.substring(0, io+ ".io".length());
+			}
+			else if (co > -1 ){
+				url = url.substring(0, co+ ".co".length());
+			}
+			else if (it > -1 ){
+				url = url.substring(0, it+ ".it".length());
+			}
+			else if (us > -1 ){
+				url = url.substring(0, us+ ".us".length());
+			}
 		}
-		else if (edu > -1){
-			url = url.substring(0, edu+ ".edu".length());
-		}
-		else if (org > -1 ){
-			url = url.substring(0, org+ ".org".length());
-		}
-		else if (io > -1 ){
-			url = url.substring(0, io+ ".io".length());
-		}
-		else if (co > -1 ){
-			url = url.substring(0, co+ ".co".length());
-		}
-		else if (it > -1 ){
-			url = url.substring(0, it+ ".it".length());
-		}
-		else if (us > -1 ){
-			url = url.substring(0, us+ ".us".length());
-		}
-		
-		/* What's the blank line for top website?
-		String trimmed = url.trim();
-		if (trimmed.equals("")){
-			System.out.println(checkme);
-		}
-		*/
 		return url;
 	}
 
