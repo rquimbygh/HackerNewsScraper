@@ -14,11 +14,11 @@ public class Scraper {
 	final String getItem = "item/";
 	final String maxItem = "maxitem.json";
 	int maxItemID = -1;
-	PairStringInt[] urlItems;
+	Pair[] urlItems;
 	int uItems = 0;
-	PairStringInt[] byItems;
+	Pair[] byItems;
 	int bItems = 0;
-	Pair[] scoreItems;
+	Triplet[] scoreItems;
 	int sItems = 0;
 
 	private void setMaxItemID() throws Exception {
@@ -47,15 +47,15 @@ public class Scraper {
 		}
 		if (maxItemID>0){
 			/*
-			urlItems = new PairStringInt[maxItemID - 1];
-			byItems = new PairStringInt[maxItemID - 1];	
+			urlItems = new Pair[maxItemID - 1];
+			byItems = new Pair[maxItemID - 1];	
 			scoreItems = new Pair[maxItemID - 1];	
 			 */
 
 			//size limits for memory's sake
-			urlItems = new PairStringInt[1000];
-			byItems = new PairStringInt[1000];	
-			scoreItems = new Pair[1000];
+			urlItems = new Pair[1000];
+			byItems = new Pair[1000];	
+			scoreItems = new Triplet[1000];
 
 			//size limits for memory's sake
 			// for (int i = 0 ; i <=maxItemID ; i++) {
@@ -69,7 +69,7 @@ public class Scraper {
 						if (item.by != null){
 							addBy(byItems, item.by);
 						}
-						scoreItems[sItems++] = new Pair(item.id, item.score);
+						scoreItems[sItems++] = new Triplet(item.score, item.title, item.url);
 					}
 				} catch (Exception e){
 					//dont stop for 401 error
@@ -83,19 +83,19 @@ public class Scraper {
 		}
 	}
 
-	public void addUrl(PairStringInt[] items, String key){
+	public void addUrl(Pair[] items, String key){
 		if (!isDuplicateUrl(items, key)){
-			urlItems[uItems++] = new PairStringInt(key, 1);
+			urlItems[uItems++] = new Pair(key, 1);
 		}
 	}
 
-	public void addBy(PairStringInt[] items, String key){
+	public void addBy(Pair[] items, String key){
 		if (!isDuplicateBy(items, key)){
-			byItems[bItems++] = new PairStringInt(key, 1);
+			byItems[bItems++] = new Pair(key, 1);
 		}
 	}
 
-	public boolean isDuplicateUrl(PairStringInt[] items, String key){
+	public boolean isDuplicateUrl(Pair[] items, String key){
 		for (int i = 0 ; i < uItems ; i++){
 			items[i].key = items[i].key.trim();
 			items[i].key = items[i].key.toLowerCase();
@@ -107,7 +107,7 @@ public class Scraper {
 		return false;
 	}
 
-	public boolean isDuplicateBy(PairStringInt[] items, String key){
+	public boolean isDuplicateBy(Pair[] items, String key){
 		for (int i = 0 ; i < bItems ; i++){
 			items[i].key = items[i].key.trim();
 			items[i].key = items[i].key.toLowerCase();
@@ -118,7 +118,7 @@ public class Scraper {
 		}
 		return false;
 	}
-	
+
 	public String justDomain (String url){
 		// we're going to say blank url's are hosted at news.ycombinator.com
 		if (url.equals("")){
@@ -205,32 +205,26 @@ public class Scraper {
 		MergeSort ms = new MergeSort(urlItems, uItems, maxItemID);
 
 		System.out.println("\nTop 10 Most Popular Domains\nCount	Domain\n****************************************************************************************************");
-		for (int i = ms.a_array.length - 1 ; i > ms.a_array.length - 11; i--){
-			System.out.println(ms.a_array[i].val + "	" + ms.a_array[i].key);
+		for (int i = ms.p_array.length - 1 ; i > ms.p_array.length - 11 && i > -1; i--){
+			System.out.println(ms.p_array[i].val + "	" + ms.p_array[i].key);
 		}
 	}
 
 	public void topTenUsers(){
 		MergeSort ms = new MergeSort(byItems, bItems, maxItemID);
 		System.out.println("\nTop 10 Most Popular Submitters\nCount	Submitter\n****************************************************************************************************");
-		for (int i = ms.a_array.length - 1 ; i > ms.a_array.length - 11; i--){
-			System.out.println(ms.a_array[i].val + "	" + ms.a_array[i].key);
+		for (int i = ms.p_array.length - 1 ; i > ms.p_array.length - 11 && i > -1; i--){
+			System.out.println(ms.p_array[i].val + "	" + ms.p_array[i].key);
 		}
 	}
 
 	public void topTenPosts(){
 		MergeSort ms = new MergeSort(scoreItems, sItems, maxItemID);
 		System.out.println("\nTop 10 Highest Scoring Posts\nScore	Title	Url\n****************************************************************************************************");
-		for (int i = ms.b_array.length - 1 ; i > ms.b_array.length - 11; i--){
-			try {
-				Response item = getItem(""+ms.b_array[i].key);
-				System.out.println(item.score + "	" + item.title + "	" + item.url);
-			} catch (Exception e) {
-				System.out.println("error occured printing top ten posts. error: " + e);
-			}
+		for (int i = ms.t_array.length - 1 ; i > ms.t_array.length - 11 && i > -1; i--){
+			System.out.println(ms.t_array[i]);
 		}
 	}
-
 
 	public static void main(String[] args) {
 		Scraper scraper = new Scraper();

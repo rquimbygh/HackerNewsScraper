@@ -1,19 +1,15 @@
 package forScraper;
 
 public class Pair {
-	public int key;
+	  public String key;
 	  public int val;
 	  
-	  Pair(int itemID, int itemVal) {
-	    key = itemID;
+	  Pair(String itemKey, int itemVal) {
+	    key = itemKey;
 	    val = itemVal;
 	  }
-	  
+
 	  public String toString(){
-		  return key + " " + val;
+		  return key.toString() + " " + val;
 	  }
-	  
-		public static void main(String[] args) {
-			
-		}
 }
